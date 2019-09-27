@@ -1,0 +1,13 @@
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+druid.properties
+log4j.properties
+*.class
+*.iml
+.idea

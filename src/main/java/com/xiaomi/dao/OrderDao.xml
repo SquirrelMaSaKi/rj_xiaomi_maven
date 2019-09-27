@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.OrderDao">
+    <insert id="add">
+        insert into tb_order(id,uid,money,status,time,aid)values(#{id},#{uid},#{money},#{status},#{time},#{aid})
+    </insert>
+    <update id="updateStatus">
+        update tb_order set status = #{status} where id = #{id}
+    </update>
+    <select id="orderFindById" resultType="Order">
+        select * from tb_order where uid = #{uid}
+    </select>
+    <select id="findByOid" resultType="Order">
+        select * from tb_order where id = #{oid}
+    </select>
+    <select id="getCount" resultType="long">
+        select count(*) from tb_order as o inner join tb_user as u on o.uid=u.id
+        <where>
+            ${condition}
+        </where>
+    </select>
+    <select id="orderByPages" resultType="Order">
+        select o.*,u.username from tb_order as o inner join tb_user as u on o.`uid`=u.`id`
+        <where>
+            ${condition}
+        </where>
+        limit #{offset},#{pageSize}
+    </select>
+</mapper>

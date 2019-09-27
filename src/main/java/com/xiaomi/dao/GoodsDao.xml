@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.GoodsDao">
+    <insert id="add">
+        insert into tb_goods(name,pubdate,picture,price,star,intro,typeid) values (#{name},#{pubdate},#{picture},#{price},#{star},#{intro},#{typeid})
+    </insert>
+    <update id="update">
+        update tb_goods set name=#{name},pubdate=#{pubdate},picture=#{picture},price=#{price},star=#{star},intro=#{intro},typeid=#{typeid} where id=#{id}
+    </update>
+    <delete id="deleteByPid">
+        delete from tb_goods where id=#{pid}
+    </delete>
+
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from tb_goods
+        <where>
+            ${condition}
+        </where>
+    </select>
+    <select id="findPageByWheres" resultType="com.xiaomi.domain.Goods">
+        select * from tb_goods
+        <where>
+            ${condition}
+        </where>
+        order by id limit #{offset},#{pageSize}
+    </select>
+    <select id="findById" resultType="com.xiaomi.domain.Goods">
+        select * from tb_goods where id = #{gid}
+    </select>
+    <select id="findeByTypeId" resultType="com.xiaomi.domain.Goods">
+        select * from tb_goods where typeid=#{typeid}
+    </select>
+</mapper>

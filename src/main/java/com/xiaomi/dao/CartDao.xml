@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.CartDao">
+    <insert id="add">
+        insert into tb_cart(id,pid,num,money)values(#{id},#{pid},#{num},#{money})
+    </insert>
+    <update id="update">
+        update tb_cart set num=#{num}, money=#{money} where id=#{id} and pid=#{pid}
+    </update>
+    <delete id="delete">
+        delete from tb_cart where id = #{id} and pid = #{pid}
+    </delete>
+    <delete id="deleteByUid">
+        delete from tb_cart where id = #{id}
+    </delete>
+
+    <select id="findByUidAndPid" resultType="com.xiaomi.domain.Cart">
+        select * from tb_cart where id=#{uid} and pid=#{pid}
+    </select>
+    <select id="findByUid" resultType="com.xiaomi.domain.Cart">
+        select * from tb_cart where id = #{uid}
+    </select>
+    <select id="findByPid" resultType="com.xiaomi.domain.Cart">
+        select * from tb_cart where pid=#{pid}
+    </select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.GoodsTypeDao">
+    <insert id="add">
+        insert into tb_goods_type(name,level,parent) values (#{name},#{level},#{parent})
+    </insert>
+    <update id="modifyById">
+        update tb_goods_type set name=#{name},level=#{level},parent=#{parent} where id=#{id}
+    </update>
+    <delete id="deleteByID">
+        delete from tb_goods_type where id = #{id}
+    </delete>
+    <select id="findTypeByLevel" resultType="com.xiaomi.domain.GoodsType">
+        select * from tb_goods_type where level = #{i}
+    </select>
+    <select id="findTypeAlls" resultType="com.xiaomi.domain.GoodsType">
+        select * from tb_goods_type
+        <where>
+            ${condition}
+        </where>
+        limit #{offset},#{ps}
+    </select>
+    <select id="getCount" resultType="java.lang.Long">
+        select count(*) from tb_goods_type
+        <where>
+            ${condition}
+        </where>
+    </select>
+    <select id="findGoodsTypes" resultType="com.xiaomi.domain.GoodsType">
+        select * from tb_goods_type
+    </select>
+    <select id="findById" resultType="com.xiaomi.domain.GoodsType">
+        select * from tb_goods_type where id=#{typeid}
+    </select>
+</mapper>

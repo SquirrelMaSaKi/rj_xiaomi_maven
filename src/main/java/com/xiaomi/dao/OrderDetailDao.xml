@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaomi.dao.OrderDetailDao">
+    <insert id="add">
+        insert into tb_orderdetail(oid,pid,num,money) values(#{oid},#{pid},#{num},#{money})
+    </insert>
+    <select id="findOrderDetails" resultType="OrderDetail">
+        select * from tb_orderdetail where oid=#{oid}
+    </select>
+    <select id="findByPid" resultType="OrderDetail">
+        select * from tb_orderdetail where pid=#{pid}
+    </select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--aop切面编程-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+       <!--连接池-->
+       <!--<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+           <!--&lt;!&ndash; 基本参数 &ndash;&gt;-->
+           <!--<property name="url" value="jdbc:mysql://localhost:3306/db_shopping?useSSL=true&amp;characterEncoding=utf8"/>-->
+           <!--<property name="username" value="root"></property>-->
+           <!--<property name="password" value="123456"></property>-->
+           <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>-->
+           <!--&lt;!&ndash; 详细参数 &ndash;&gt;-->
+           <!--&lt;!&ndash; 连接池的最大连接对象 数量 &ndash;&gt;-->
+           <!--<property name="maxActive" value="3"></property>-->
+           <!--&lt;!&ndash; 最少要空闲 1 个连接对象 &ndash;&gt;-->
+           <!--<property name="minIdle" value="1"></property>-->
+           <!--&lt;!&ndash; 初始化连接池  要创建1个连接对象 &ndash;&gt;-->
+           <!--<property name="initialSize" value="1"></property>-->
+           <!--&lt;!&ndash; 当向连接池索要连接时，如果没有空闲连接，最大等待的时长：毫秒 &ndash;&gt;-->
+           <!--<property name="maxWait" value="3000"></property>-->
+       <!--</bean>-->
+        <context:property-placeholder location="classpath:druid.properties"/>
+        <bean id="druid" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <property name="url" value="${jdbc.url}"/>
+            <property name="username" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+            <property name="initialSize" value="${jdbc.initialSize}"/>
+            <property name="minIdle" value="${jdbc.minIdle}"/>
+            <property name="maxWait" value="${jdbc.maxWait}"/>
+            <property name="maxActive" value="${jdbc.maxActive}"/>
+        </bean>
+       <!--SqlSessionFactory-->
+        <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <property name="dataSource" ref="druid"/>
+            <property name="typeAliasesPackage" value="com.xiaomi.domain"/>
+            <property name="plugins">
+                <list>
+                    <bean class="com.github.pagehelper.PageInterceptor">
+                        <property name="properties">
+                            <value>
+                                resonable=true
+                            </value>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+        </bean>
+        <!--mapperscannerconfig-->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="basePackage" value="com.xiaomi.dao"/>
+        </bean>
+        <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="druid"/>
+        </bean>
+        <!--扫描注解-->
+        <context:component-scan base-package="com.xiaomi"/>
+        <tx:annotation-driven transaction-manager="tx"/>
+</beans>
